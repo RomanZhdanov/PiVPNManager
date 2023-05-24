@@ -1,0 +1,10 @@
+version: "3"
+services:
+  pivpn_manager:
+    image: transportedman/pivpn_manager
+    ports:
+      - '8080:80'
+    volumes:
+      - /home/vpn/data:/app/Data
+    environment:
+      - Telegram__ApiKey=[YOUR_BOT_API_KEY]
