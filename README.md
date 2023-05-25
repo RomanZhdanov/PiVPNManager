@@ -1,1 +1,2 @@
-# MyVpnBot
+# PiVPN Manager
+This is simple solution to manage your [PiVPN](https://pivpn.io/) servers. Also solution provide a bot for [Telegram](https://telegram.org/) to give users easy access to PiVPN Manager features.
