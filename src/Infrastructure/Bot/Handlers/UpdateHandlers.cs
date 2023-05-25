@@ -201,13 +201,16 @@ namespace PiVPNManager.Infrastructure.Bot.Handlers
             {
                 var msg = new StringBuilder();
                 msg.AppendLine($"Бот представляет из себя дополнение к приложению WireGuard\\.");
-                msg.AppendLine($"[На официальной странице]({"https://www.wireguard.com/install/".ToEscapeMarkDown()}) можете скачать приложение для вашего устройства, а бот позволит создать клиента для создания VPN тоннеля в приложении\\.");
+                msg.AppendLine($"[На официальной странице]({"https://www.wireguard.com/install/".ToEscapeMarkDown()}) можете скачать приложение для вашего устройства, а бот позволит создать клиента для него\\.");
                 
                 msg.AppendLine();
-                msg.AppendLine("Создайте клиент с помощью команды /add_client.".ToEscapeMarkDown());
-                msg.AppendLine("Затем для каждого созданного вами клиента вы можете получить файл конфигурации или qr-код, для создания тоннеля в WireGuard.".ToEscapeMarkDown());
+                msg.AppendLine("Создать клиент можно с помощью команды /add_client.".ToEscapeMarkDown());
+                msg.AppendLine("Затем для каждого созданного вами клиента вы cможете получить файл конфигурации или qr-код, для создания тоннеля в WireGuard.".ToEscapeMarkDown());
                 msg.AppendLine();
-                msg.AppendLine($"Максимальное число клиентов:{max_clients}.".ToEscapeMarkDown());
+                msg.AppendLine($"ℹ️ Максимальное число клиентов: {max_clients}".ToEscapeMarkDown());
+                msg.AppendLine();
+                msg.AppendLine("Можно посмотреть список серверов по команде /servers. В этом списке так же будет отражен статус доступности серверов.".ToEscapeMarkDown());
+                msg.AppendLine("ℹ️ Если какой-то сервер становится недоступен, то вам придет уведомление об этом. Так же придет уведомление, когда сервер снова вернется в строй.".ToEscapeMarkDown());
 
                 return await botClient.SendTextMessageAsync(
                     chatId: message.Chat.Id,
