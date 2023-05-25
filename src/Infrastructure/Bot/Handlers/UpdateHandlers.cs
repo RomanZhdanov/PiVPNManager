@@ -81,8 +81,8 @@ namespace PiVPNManager.Infrastructure.Bot.Handlers
                     if (canCreateClient)
                     {
                         usersStates[chatId] = UserStates.EnterClientName;
-                        msgText.AppendLine("Введите называние клиента, например, *телефон* или *ноутбук* или что угодно, это нужно только для вашего удобства\\.");
-                        msgText.AppendLine("Название может быть от 2 до 8 символов\\!");
+                        msgText.AppendLine("Введите название для клиента, например, *телефон* или *ноутбук* или что угодно, это нужно только для вашего удобства\\.");
+                        msgText.AppendLine("❗️Название должно быть от 2 до 8 символов\\!");
                     }
                     else
                     {
@@ -96,7 +96,7 @@ namespace PiVPNManager.Infrastructure.Bot.Handlers
 
                     if (string.IsNullOrWhiteSpace(userInput) || userInput.Length < 2 || userInput.Length > 8)
                     {
-                        msgText.AppendLine("Некорректное названиек клиента, попробуйте еще раз");
+                        msgText.AppendLine("Некорректное название клиента, попробуйте еще раз");
                     }
                     else
                     {
