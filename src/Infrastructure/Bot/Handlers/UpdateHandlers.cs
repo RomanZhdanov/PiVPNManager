@@ -82,6 +82,7 @@ namespace PiVPNManager.Infrastructure.Bot.Handlers
                     {
                         usersStates[chatId] = UserStates.EnterClientName;
                         msgText.AppendLine("Введите называние клиента, например, *телефон* или *ноутбук* или что угодно, это нужно только для вашего удобства\\.");
+                        msgText.AppendLine("Название может быть от 2 до 8 символов\\!");
                     }
                     else
                     {
@@ -92,38 +93,46 @@ namespace PiVPNManager.Infrastructure.Bot.Handlers
                 if (userState == UserStates.EnterClientName)
                 {
                     var userInput = message.Text;
-                    _usersActionsManager.AddClientName(chatId, userInput);
-                    
-                    msgText.AppendLine("Выберите место расположения сервера:");
 
-                    var buttonRows = new List<List<KeyboardButton>>();
-                    var serversResult = await _mediator.Send(new GetServersQuery
+                    if (string.IsNullOrWhiteSpace(userInput) || userInput.Length < 2 || userInput.Length > 8)
                     {
-                        NotDead = true,
-                        AvailableOnly = true
-                    });
-
-                    if (serversResult.IsError)
-                    {
-                        msgText.AppendLine("Во время загрузки списка серверов произошла ошибка:");
-                        foreach (var error in serversResult.Errors)
-                        {
-                            msgText.AppendLine(error.Message.ToEscapeMarkDown());
-                        }
+                        msgText.AppendLine("Некорректное названиек клиента, попробуйте еще раз");
                     }
                     else
                     {
-                        foreach (var server in serversResult.Payload)
-                        {
-                            buttonRows.Add(
-                                new List<KeyboardButton>
-                                {
-                                new KeyboardButton(server.Name)
-                                });
-                        };
+                        _usersActionsManager.AddClientName(chatId, userInput);
 
-                        keyboard = new ReplyKeyboardMarkup(buttonRows);
-                        usersStates[chatId] = UserStates.ChooseServer;
+                        msgText.AppendLine("Выберите место расположения сервера:");
+
+                        var buttonRows = new List<List<KeyboardButton>>();
+                        var serversResult = await _mediator.Send(new GetServersQuery
+                        {
+                            NotDead = true,
+                            AvailableOnly = true
+                        });
+
+                        if (serversResult.IsError)
+                        {
+                            msgText.AppendLine("Во время загрузки списка серверов произошла ошибка:");
+                            foreach (var error in serversResult.Errors)
+                            {
+                                msgText.AppendLine(error.Message.ToEscapeMarkDown());
+                            }
+                        }
+                        else
+                        {
+                            foreach (var server in serversResult.Payload)
+                            {
+                                buttonRows.Add(
+                                    new List<KeyboardButton>
+                                    {
+                                new KeyboardButton(server.Name)
+                                    });
+                            };
+
+                            keyboard = new ReplyKeyboardMarkup(buttonRows);
+                            usersStates[chatId] = UserStates.ChooseServer;
+                        }
                     }
                 }
 
