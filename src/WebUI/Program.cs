@@ -2,8 +2,15 @@ using PiVPNManager.Application;
 using PiVPNManager.Infrastructure;
 using PiVPNManager.Infrastructure.Data;
 using PiVPNManager.WebUI.Services;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .CreateLogger();
+
+builder.Host.UseSerilog();
 
 // Add services to the container.
 builder.Services.AddApplicationServices();
