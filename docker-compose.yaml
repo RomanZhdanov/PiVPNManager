@@ -1,10 +1,30 @@
 version: "3"
 services:
+  seq:
+    image: datalust/seq
+    ports:
+      - '8080:80'
+      - '5341:5341'
+    volumes:
+      - /home/vpn/data/seq:/data
+    environment:
+      - ACCEPT_EULA=Y
+    networks:
+      - pivpn_net
   pivpn_manager:
     image: transportedman/pivpn_manager
     ports:
-      - '8080:80'
+      - '80:80'
     volumes:
-      - /home/vpn/data:/app/Data
+      - /home/vpn/data/pivpn_manager:/app/Data
     environment:
+      - HealthCheckPeriodMinutes=10
       - Telegram__ApiKey=[YOUR_BOT_API_KEY]
+    networks:
+      - pivpn_net
+
+networks:
+  pivpn_net:
+    driver: bridge
+    ipam:
+      driver: default
